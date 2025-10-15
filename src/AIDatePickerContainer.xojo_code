@@ -28,7 +28,7 @@ Begin WebContainer AIDatePickerContainer
    Begin WebTextField TextField1
       AllowAutoComplete=   False
       AllowSpellChecking=   False
-      Caption         =   "Please enter your birth date:"
+      Caption         =   "Untitled:"
       ControlID       =   ""
       CSSClasses      =   ""
       Enabled         =   True
@@ -60,7 +60,7 @@ Begin WebContainer AIDatePickerContainer
       _mPanelIndex    =   -1
    End
    Begin WebButton Button1
-      AllowAutoDisable=   False
+      AllowAutoDisable=   True
       Cancel          =   False
       Caption         =   "Select"
       ControlID       =   ""
@@ -103,10 +103,18 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub PopoverClosed(sender As WebUIControl)
+		  Button1.Enabled = True
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ShowDatePicker()
 		  Var datePicker As New DatePickerPopover
 		  AddHandler datePicker.DateSelected, WeakAddressOf DateSelectedHandler
-		  datePicker.ShowPopover(Button1)
+		  AddHandler datePicker.Closed, WeakAddressOf PopoverClosed
+		  
+		  datePicker.ShowPopover(TextField1)
 		End Sub
 	#tag EndMethod
 
@@ -116,11 +124,27 @@ End
 	#tag EndHook
 
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return TextField1.Caption
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  TextField1.Caption = value
+			End Set
+		#tag EndSetter
+		Caption As String
+	#tag EndComputedProperty
+
+
 #tag EndWindowCode
 
 #tag Events TextField1
 	#tag Event
 		Sub FocusReceived()
+		  Button1.Enabled = False
 		  ShowDatePicker
 		End Sub
 	#tag EndEvent
@@ -133,30 +157,6 @@ End
 	#tag EndEvent
 #tag EndEvents
 #tag ViewBehavior
-	#tag ViewProperty
-		Name="PanelIndex"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="_mPanelIndex"
-		Visible=false
-		Group="Behavior"
-		InitialValue="-1"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="ControlCount"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
 	#tag ViewProperty
 		Name="Name"
 		Visible=true
@@ -186,6 +186,46 @@ End
 		Visible=true
 		Group="Position"
 		InitialValue="0"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Width"
+		Visible=false
+		Group="Position"
+		InitialValue="250"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="Height"
+		Visible=false
+		Group="Position"
+		InitialValue="250"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="PanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="_mPanelIndex"
+		Visible=false
+		Group="Behavior"
+		InitialValue="-1"
+		Type="Integer"
+		EditorType=""
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="ControlCount"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
 		Type="Integer"
 		EditorType=""
 	#tag EndViewProperty
@@ -300,6 +340,14 @@ End
 		#tag EndEnumValues
 	#tag EndViewProperty
 	#tag ViewProperty
+		Name="Caption"
+		Visible=true
+		Group="Behavior"
+		InitialValue="Untitled:"
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
 		Name="TabIndex"
 		Visible=true
 		Group="Visual Controls"
@@ -352,21 +400,5 @@ End
 			"2 - TopToBottom"
 			"3 - BottomToTop"
 		#tag EndEnumValues
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Width"
-		Visible=false
-		Group=""
-		InitialValue="250"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Height"
-		Visible=false
-		Group=""
-		InitialValue="250"
-		Type="Integer"
-		EditorType=""
 	#tag EndViewProperty
 #tag EndViewBehavior

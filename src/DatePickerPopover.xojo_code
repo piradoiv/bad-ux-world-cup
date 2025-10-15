@@ -80,6 +80,7 @@ Begin WebContainer DatePickerPopover
          Parent          =   "Pages"
          Scope           =   2
          TabIndex        =   6
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Guessing the date you're thinking of using AI ✨..."
          TextAlignment   =   2
@@ -113,6 +114,7 @@ Begin WebContainer DatePickerPopover
          SVGColor        =   &c00000000
          SVGData         =   ""
          TabIndex        =   0
+         TabPanelIndex   =   0
          TabStop         =   True
          Tooltip         =   ""
          Top             =   64
@@ -144,6 +146,7 @@ Begin WebContainer DatePickerPopover
          Parent          =   "Pages"
          Scope           =   2
          TabIndex        =   0
+         TabPanelIndex   =   0
          TabStop         =   True
          Text            =   "Is it Saturday, September 31st 1970?"
          TextAlignment   =   2
@@ -166,8 +169,6 @@ Begin WebContainer DatePickerPopover
       Period          =   2000
       RunMode         =   0
       Scope           =   2
-      TabIndex        =   7
-      TabStop         =   True
       _mPanelIndex    =   -1
    End
    Begin WebButton NoBeforeButton
@@ -274,7 +275,12 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub GenerateRandomDate()
-		  mDate = New DateTime((mMinimumDate.SecondsFrom1970 + mMaximumDate.SecondsFrom1970) / 2)
+		  If mDate = Nil Then
+		    mDate = DateTime.Now.SubtractInterval(System.Random.InRange(0, 200), System.Random.InRange(0, 12), System.Random.InRange(0, 31))
+		  Else
+		    mDate = New DateTime((mMinimumDate.SecondsFrom1970 + mMaximumDate.SecondsFrom1970) / 2)
+		  End If
+		  
 		  mAttempts = mAttempts + 1
 		  Mode = Modes.WaitingForInput
 		End Sub
@@ -282,7 +288,7 @@ End
 
 	#tag Method, Flags = &h21
 		Private Sub Reset()
-		  mDate = DateTime.Now.SubtractInterval(System.Random.InRange(0, 200), System.Random.InRange(0, 12), System.Random.InRange(0, 31))
+		  mDate = Nil
 		  mMinimumDate = New DateTime(0)
 		  mMaximumDate = DateTime.Now
 		  mAttempts = 0

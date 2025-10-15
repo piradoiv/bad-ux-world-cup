@@ -1,5 +1,5 @@
 #tag WebPage
-Begin WebPage WebPage1
+Begin WebPage DatePickerWebPage
    AllowTabOrderWrap=   True
    Compatibility   =   ""
    ControlCount    =   0
@@ -25,7 +25,7 @@ Begin WebPage WebPage1
    PanelIndex      =   0
    ScaleFactor     =   0.0
    TabIndex        =   0
-   Title           =   "Untitled"
+   Title           =   "Date Picker"
    Top             =   0
    Visible         =   True
    Width           =   600
@@ -34,6 +34,7 @@ Begin WebPage WebPage1
    _mDesignWidth   =   0
    _mPanelIndex    =   -1
    Begin AIDatePickerContainer AIDatePicker
+      Caption         =   "Please enter your birth date:"
       ControlCount    =   0
       ControlID       =   ""
       CSSClasses      =   ""

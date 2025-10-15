@@ -1,2 +1,4 @@
 .DS_Store
 *.xojo_uistate
+*.debug
+Builds - *
